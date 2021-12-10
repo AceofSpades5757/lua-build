@@ -1,2 +1,5 @@
+# Lua Archive File
 # lua-5.4.3.tar.gz
 *.tar.gz
+# Lua Source Code
+lua-*
