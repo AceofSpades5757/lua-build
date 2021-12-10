@@ -6,6 +6,7 @@ Steps
     * Compiler (TDM-GCC)
     * Lua
 """
+import shutil
 import subprocess
 import urllib.request
 from pathlib import Path
@@ -22,6 +23,7 @@ try:
         shell=False,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
+        stdin=subprocess.DEVNULL,
     )
 except FileNotFoundError:
     raise SystemExit(
@@ -31,9 +33,25 @@ except subprocess.CalledProcessError:
     # Installed
     pass
 
-# Download Lua
+# Download Lua Source
 download_url: Final[str] = 'http://www.lua.org/ftp/lua-5.4.3.tar.gz'
 download_path: Final[str] = 'lua-5.4.3.tar.gz'
 
 if not Path(download_path).exists():
     urllib.request.urlretrieve(download_url, download_path)
+
+# Extract Lua Source
+# Clean
+build_directory: Final[str] = 'lua-5.4.3'
+if Path(build_directory).exists():
+    shutil.rmtree('lua-5.4.3')
+shutil.unpack_archive(download_path)
+
+# Build Lua
+process = subprocess.Popen(
+    ['mingw32-make', 'PLAT=mingw'],
+    cwd=build_directory,
+)
+
+return_code: int = process.wait()
+__import__('IPython').embed()
