@@ -1,13 +1,18 @@
 """ Build and install Lua from source, give a version and install location.
 
-* Currently only supports tested on Lua 5.4.3
+* Currently only supports Lua 5.4.3 (as far as I know).
 * Only allows user install (no admin elevation)
+* WINDOWS ONLY
 
 Steps
 -----
-1. Download dependencies.
-    * Compiler (TDM-GCC)
-    * Lua
+1. Dependencies: checks if installed.
+    * Compiler (TDM-GCC) as `gcc`
+2. Clean (in case of previous build).
+3. Download Lua source code.
+4. Extract Lua source code.
+5. Build Lua.
+6. Install Lua (currently to os.environ['APPDATA'] + 'Lua')
 """
 import glob
 import logging.config
